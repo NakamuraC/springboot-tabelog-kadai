@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<div th:replace="~{fragment :: meta}"></div> 
+
+	 <div th:replace="~{fragment :: styles}"></div> 
 <title>トップページ</title>
 </head>
 <body>
-	<p>トップページです</p>
+	<div th:replace="~{fragment :: header}"></div>
+
 </body>
+
+
 </html>

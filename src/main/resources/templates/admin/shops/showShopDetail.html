@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{fragment :: meta}"></div>
+
+	<div th:replace="~{fragment :: styles}"></div>
+	<title>店舗詳細表示画面</title>
+
+</head>
+
+<body>
+	<div class="nagoyameshi-wrapper">
+
+		<div th:replace="~{fragment :: header}"></div>
+
+		<main>
+			<div class="container nagoyameshi-container">
+				<div class="row justify-content-center">
+					<div class="col-xl-5 col-lg-6 col-md-8">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="#">店舗一覧</a></li>
+								<li class="breadcrumb-item active" aria-current="page">店舗詳細</li>
+							</ol>
+						</nav>
+
+						<h1 class="text-center" th:text="${shop.getName()}"></h1>
+
+						<div class="d-flex justify-content-end align-items-end">
+							<div>
+								<a href="#">編集</a>
+							</div>
+						</div>
+
+						<div class="mb-3">
+							<img th:if="${shop.getImageName()}" th:src="@{/storage/__${shop.getImageName()}__}"
+								class="card-img-top nagoyameshi-horizontal-card-image" alt="店舗画像">
+						</div>
+
+						<div class="container mb-4">
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">ID</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getId()}"></span>
+								</div>
+							</div>
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">店舗名</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getName()}"></span>
+								</div>
+							</div>
+							
+							<div class="row pb-2 mb-2 border-bottom">
+											<div>
+												<span class="fw-bold">カテゴリID</span>
+											</div>
+
+											<div>
+												<span th:text="${shop.getCategoryId()}"></span>
+											</div>
+										</div>
+
+							
+							<div class="row pb-2 mb-2 border-bottom">
+											<div>
+												<span class="fw-bold">予算</span>
+											</div>
+
+											<div>
+												<span th:text="${shop.getBudget()}"></span>
+											</div>
+										</div>
+
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">説明</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getDescription()}"></span>
+								</div>
+							</div>
+
+			
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">住所</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getAddress()}"></span>
+								</div>
+							</div>
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">電話番号</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getPhoneNumber()}"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<div th:replace="~{fragment :: footer}"></div>
+	</div>
+
+	<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+
+</html>
