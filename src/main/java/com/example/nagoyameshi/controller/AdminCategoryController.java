@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.repository.CategoryRepository;
@@ -20,11 +21,18 @@ public class AdminCategoryController {
     }
 
 	@GetMapping
-	public String index(Model model) {
-		List<Category> categories = categoryRepository.findAll();
+	public String index(Model model, @RequestParam(name = "keyword", required = false) String keyword) {
+		List<Category> categories;
 
+		if (keyword != null && !keyword.trim().isEmpty()) {
+		    categories = categoryRepository.findByNameContaining(keyword);
+		} else {
+		    categories = categoryRepository.findAll();
+		}
+		
 		model.addAttribute("categories", categories);
+		model.addAttribute("keyword", keyword);
 
-		return "admin/houses/adminCategory";
+		return "admin/categories/adminCategory";
 	}
 }
