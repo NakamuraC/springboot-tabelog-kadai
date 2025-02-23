@@ -74,7 +74,7 @@ public class AdminShopController {
 	@PostMapping("/create")
 	public String create(@ModelAttribute @Validated ShopRegisterForm shopRegisterForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if(bindingResult.hasErrors()) {
-			return "admin/shops/register";
+			return "admin/shops/shopRegister";
 		}
 		
 		shopService.create(shopRegisterForm);
