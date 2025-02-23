@@ -34,7 +34,7 @@ public class Shop {
 //	外部キー
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
-	private Category categoryId;
+	private Category category;
 	
 	@Column(name = "budget")
 	private Integer budget;

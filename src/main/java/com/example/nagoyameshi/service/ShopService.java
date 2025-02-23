@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.entity.Shop;
 import com.example.nagoyameshi.form.ShopRegisterForm;
 import com.example.nagoyameshi.repository.ShopRepository;
@@ -39,7 +40,7 @@ public class ShopService {
 		Integer categoryId = shopRegisterForm.getCategoryId();
 		Category category = shopRepository.findById(categoryId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-		shop.setCategoryId(category);
+		shop.setCategory(category);
 
 		shop.setBudget(shopRegisterForm.getBudget());
 		shop.setAddress(shopRegisterForm.getAddress());

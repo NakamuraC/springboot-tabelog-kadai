@@ -72,9 +72,9 @@
 								</div>
 								<div class="col-md-8">
 									<div th:if="${#fields.hasErrors('categoryId')}" class="text-danger small mb-2"
-										th:errors="*{caregoryId}"></div>
+										th:errors="*{categoryId}"></div>
 									<select id="categoryId" class="form-control" th:field="*{categoryId}">
-										<option value="">-- 選択してください --</option>
+										<option value="">選択してください</option>
 										<option th:each="category : ${categories}" th:value="${category.id}"
 											th:text="${category.name}"></option>
 									</select>
