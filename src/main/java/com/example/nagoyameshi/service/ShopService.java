@@ -13,14 +13,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.entity.Shop;
 import com.example.nagoyameshi.form.ShopRegisterForm;
+import com.example.nagoyameshi.repository.CategoryRepository;
 import com.example.nagoyameshi.repository.ShopRepository;
 
 @Service
 public class ShopService {
 	private final ShopRepository shopRepository;
+	private final CategoryRepository categoryRepository;
 
-	public ShopService(ShopRepository shopRepository) {
+	public ShopService(ShopRepository shopRepository, CategoryRepository categoryRepository) {
 		this.shopRepository = shopRepository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	@Transactional
@@ -38,7 +41,7 @@ public class ShopService {
 		shop.setDescription(shopRegisterForm.getDescription());
 
 		Integer categoryId = shopRegisterForm.getCategoryId();
-		Category category = shopRepository.findById(categoryId)
+		Category category = categoryRepository.findById(categoryId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
 		shop.setCategory(category);
 
