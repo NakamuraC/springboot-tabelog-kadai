@@ -52,7 +52,7 @@
 								<tr th:each="shop : ${shopPage}">
 									<td th:text="${shop.getId()}"></td>
 									<td th:text="${shop.getName()}"></td>
-									<td th:text="${shop.category.id()}"></td>
+									<td th:text="${shop.category.id}"></td>
 									<td th:text="${shop.getAddress()}"></td>
 									<td th:text="${shop.getPhoneNumber()}"></td>
 									<td><a th:href="@{/admin/shops/__${shop.getId()}__}">詳細</a></td>
