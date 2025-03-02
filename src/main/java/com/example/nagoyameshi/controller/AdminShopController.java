@@ -39,6 +39,16 @@ public class AdminShopController {
 		this.categoryRepository = categoryRepository;
 		this.shopService = shopService;
 	}
+	
+	@PostMapping("/{id}/delete")
+	public String delete(@PathVariable(name = "id")Integer id, RedirectAttributes redirectAttributes) {
+		shopRepository.deleteById(id);
+		
+		redirectAttributes.addFlashAttribute("successMessage", "店舗を削除しました。");
+		
+		return "redirect:/admin/shops";
+	}
+	
 
 	@GetMapping
 	public String index(Model model,
@@ -77,8 +87,9 @@ public class AdminShopController {
 
 	@PostMapping("/create")
 	public String create(@ModelAttribute @Validated ShopRegisterForm shopRegisterForm, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("categories", categoryRepository.findAll());
 			return "admin/shops/shopRegister";
 		}
 
@@ -94,11 +105,30 @@ public class AdminShopController {
 		String imageName = shop.getImageName();
 		ShopEditForm shopEditForm = new ShopEditForm(shop.getId(), shop.getName(), null, shop.getDescription(),
 				shop.getCategory().getId(), shop.getBudget(), shop.getAddress(), shop.getPhoneNumber());
+		
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("categories", categories);
 
 		model.addAttribute("imageName", imageName);
 		model.addAttribute("shopEditForm", shopEditForm);
 
 		return "admin/shops/edit";
 	}
+	
+	@PostMapping("/{id}/update")
+	public String update(@ModelAttribute @Validated ShopEditForm shopEditForm, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categories", categoryRepository.findAll());
+			return "admin/shops/edit";
+		}
+
+		shopService.update(shopEditForm);
+		redirectAttributes.addFlashAttribute("successMessage", "店舗情報を編集しました。");
+
+		return "redirect:/admin/shops";
+	}
+	
 
 }

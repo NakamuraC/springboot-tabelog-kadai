@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.nagoyameshi.entity.Category;
+import com.example.nagoyameshi.form.CategoryEditForm;
 import com.example.nagoyameshi.form.CategoryRegisterForm;
 import com.example.nagoyameshi.repository.CategoryRepository;
 
@@ -23,4 +24,13 @@ public class CategoryService {
 
 		categoryRepository.save(category);
 	}
+	
+	@Transactional
+    public void update(CategoryEditForm categoryEditForm) {
+        Category category = categoryRepository.getReferenceById(categoryEditForm.getId());
+        
+        category.setName(categoryEditForm.getName());                
+                    
+        categoryRepository.save(category);
+    }  
 }

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.entity.Shop;
+import com.example.nagoyameshi.form.ShopEditForm;
 import com.example.nagoyameshi.form.ShopRegisterForm;
 import com.example.nagoyameshi.repository.CategoryRepository;
 import com.example.nagoyameshi.repository.ShopRepository;
@@ -48,6 +49,32 @@ public class ShopService {
 		shop.setBudget(shopRegisterForm.getBudget());
 		shop.setAddress(shopRegisterForm.getAddress());
 		shop.setPhoneNumber(shopRegisterForm.getPhoneNumber());
+
+		shopRepository.save(shop);
+	}
+	
+	@Transactional
+	public void update(ShopEditForm shopEditForm) {
+		Shop shop = shopRepository.getReferenceById(shopEditForm.getId());
+		MultipartFile imageFile = shopEditForm.getImageFile();
+
+		String imageName = imageFile.getOriginalFilename();
+		String hashedImageName = generateNewFileName(imageName);
+		Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+		copyImageFile(imageFile, filePath);
+		shop.setImageName(hashedImageName);
+
+		shop.setName(shopEditForm.getName());
+		shop.setDescription(shopEditForm.getDescription());
+
+		Integer categoryId = shopEditForm.getCategoryId();
+		Category category = categoryRepository.findById(categoryId)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
+		shop.setCategory(category);
+
+		shop.setBudget(shopEditForm.getBudget());
+		shop.setAddress(shopEditForm.getAddress());
+		shop.setPhoneNumber(shopEditForm.getPhoneNumber());
 
 		shopRepository.save(shop);
 	}

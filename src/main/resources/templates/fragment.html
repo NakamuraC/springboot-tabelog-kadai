@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -11,7 +11,13 @@
 	<div th:fragment="styles" th:remove="tag">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
 			integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
+
 		<link rel="stylesheet" th:href="@{/css/style.css}">
+
 	</div>
 
 	<title>部品化用のHTMLファイル</title>
@@ -21,12 +27,66 @@
 <body>
 
 	<div th:fragment="header" th:remove="tag">
-		<nav class="navbar nagoyameshi-navbar">
+		<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm nagoyameshi-navbar">
 			<div class="container nagoyameshi-container">
 				<a class="navbar-brand" th:href="@{/}">
 					<img class="nagoyameshi-logo" th:src="@{/images/logo.png}" alt="NAGOYA MESHI" width="100">
 				</a>
-			</div>
+
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item" sec:authorize="isAnonymous()">
+							<a class="nav-link" th:href="@{/signup}">会員登録</a>
+						</li>
+						<li class="nav-item" sec:authorize="isAnonymous()">
+							<a class="nav-link" th:href="@{/login}">ログイン</a>
+						</li>
+
+						<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_GENERAL')">
+							<span sec:authentication="principal.user.name"></span>さん こんにちは
+							<a id="navbarDropdownGeneral" class="nav-link dropdown-toggle" href="#" role="button"
+								data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+								メニュー
+							</a>
+
+							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">
+								<a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/logout}"
+									onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+									ログアウト
+								</a>
+								<form class="d-none" id="logout-form" th:action="@{/logout}" method="post"></form>
+							</div>
+						</li>
+
+						<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+							<a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button"
+								data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+								管理者メニュー
+							</a>
+
+							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
+								<a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/admin/shops}">店舗一覧</a>
+								<a class="dropdown-item samuraitravel-dropdown-item"
+									th:href="@{/admin/categories}">カテゴリー一覧</a>
+
+
+								<div class="dropdown-divider"></div>
+
+								<a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/logout}"
+									onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+									ログアウト
+								</a>
+								<form class="d-none" id="logout-form" th:action="@{/logout}" method="post"></form>
+							</div>
+						</li>
+					</ul>
+				</div>
 		</nav>
 	</div>
 

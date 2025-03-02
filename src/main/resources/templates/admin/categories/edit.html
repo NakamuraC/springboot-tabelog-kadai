@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="https://www.thymeleaf.org">
 
 <head>
 	<div th:replace="~{fragment :: meta}"></div>
 
 	<div th:replace="~{fragment :: styles}"></div>
-	<title>カテゴリ登録画面</title>
+	<title>カテゴリ編集</title>
 
 </head>
 
@@ -22,13 +22,17 @@
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a th:href="@{/admin/categories}">カテゴリー一覧</a></li>
-								<li class="breadcrumb-item active" aria-current="page">カテゴリー登録</li>
+								<li class="breadcrumb-item active" aria-current="page">カテゴリー情報編集</li>
 							</ol>
 						</nav>
 
-						<h1 class="text-center mb-4">カテゴリー登録</h1>
+						<h1 class="text-center mb-4">カテゴリー情報編集</h1>
 
-						<form method="post" th:action="@{/admin/categories/create}" th:object="${categoryRegisterForm}">
+						<form method="post" th:action="@{/admin/categories/__${categoryEditForm.getId()}__/update}"
+							th:object="${categoryEditForm}" >
+							
+							<input type="hidden" th:field="*{id}">
+							
 							<div class="form-group mb-3 row">
 								<div class="col-md-4">
 									<label for="name" class="col-form-label text-md-left fw-bold">カテゴリー名</label>
@@ -40,9 +44,9 @@
 								</div>
 							</div>
 
-							
+
 							<div class="form-group d-flex justify-content-center">
-								<button type="submit" class="btn nagoyameshi-brn btn-primary mb-4">登録</button>
+								<button type="submit" class="btn nagoyameshi-brn btn-primary mb-4">更新</button>
 							</div>
 						</form>
 					</div>

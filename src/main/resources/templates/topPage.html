@@ -1,14 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-	<div th:replace="~{fragment :: meta}"></div> 
+	<div th:replace="~{fragment :: meta}"></div>
 
-	 <div th:replace="~{fragment :: styles}"></div> 
-<title>トップページ</title>
+	<div th:replace="~{fragment :: styles}"></div>
+	<title>トップページ</title>
 </head>
-<body>
-	<div th:replace="~{fragment :: header}"></div>
 
+<body>
+	<div class="samuraitravel-wrapper">
+		
+		<div th:replace="~{fragment :: header}"></div>
+
+		<main>
+			<div class="container pt-4 pb-5 nagoyameshi-container">
+				<div th:if="${param.loggedIn}" class="alert alert-info">
+					ログインしました。
+				</div>
+
+				<div th:if="${param.loggedOut}" class="alert alert-info">
+					ログアウトしました。
+				</div>
+				
+				<div th:if="${successMessage}" class="alert alert-info">
+					<span th:text="${successMessage}"></span>
+				</div>
+			</div>
+		</main>
+
+		<!-- フッター -->
+		<div th:replace="~{fragment :: footer}"></div>
+	</div>
+
+	<div th:replace="~{fragment :: scripts}"></div>
 </body>
 
 
