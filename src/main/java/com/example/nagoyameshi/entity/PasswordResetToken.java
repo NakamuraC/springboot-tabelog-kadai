@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "verification_tokens")
+@Table(name = "password_reset_tokens")
 @Data
 public class PasswordResetToken {
 	@Id
