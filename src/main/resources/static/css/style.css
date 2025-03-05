@@ -12,6 +12,9 @@ body {
   object-fit: cover;
 }
 
+h3 {
+  font-size: 1.25rem;
+}
 
 /* 入力欄の枠を消して下線を引く */
 .custom-input {
@@ -57,3 +60,14 @@ body {
 .nagoyameshi-btn:hover {
 	background-color: rgb(234, 104, 126); /* ホバー時の少し濃い桜色 */
 }
+
+
+.samuraitravel-card-link:hover {
+  opacity: 0.6;
+}
+
+/*.samuraitravel-horizontal-card-image {*/
+/*  width: 100%;*/
+/*  height: 240px;*/
+/*  object-fit: cover;*/
+/*}*/

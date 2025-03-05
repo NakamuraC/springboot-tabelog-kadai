@@ -10,7 +10,7 @@
 
 <body>
 	<div class="samuraitravel-wrapper">
-		
+
 		<div th:replace="~{fragment :: header}"></div>
 
 		<main>
@@ -22,11 +22,90 @@
 				<div th:if="${param.loggedOut}" class="alert alert-info">
 					ログアウトしました。
 				</div>
-				
+
 				<div th:if="${successMessage}" class="alert alert-info">
 					<span th:text="${successMessage}"></span>
 				</div>
+
+
+
 			</div>
+
+			<div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
+				<div class="col-xl-3 col-lg-4 col-md-12">
+					<form method="get" class="w-100 mb-3" th:action="@{/shops}">
+						<div class="input-group">
+							<input type="text" class="form-control" name="keyword" th:value="${keyword}"
+								placeholder="店舗名・食べ物">
+							<button type="submit" class="btn shadow-sm nagoyameshi-btn btn-primary">検索</button>
+						</div>
+					</form>
+
+
+					<div class="card mb-3">
+						<div class="card-header">
+							エリア
+						</div>
+						<div class="card-body">
+							<form method="get" th:action="@{/shops}" class="w-100">
+								<div class="form-group mb-3">
+									<select class="form-control form-select" name="area">
+										<option value="" hidden>選択してください</option>
+										<optgroup label="名古屋市">
+											<option value="港区" th:selected="${area == '港区'}">港区</option>
+											<option value="中区" th:selected="${area == '中区'}">中区</option>
+											<option value="熱田区" th:selected="${area == '熱田区'}">熱田区</option>
+											<option value="中川区" th:selected="${area == '中川区'}">中川区</option>
+											<option value="中村区" th:selected="${area == '中村区'}">中村区</option>
+											<option value="南区" th:selected="${area == '南区'}">南区</option>
+											<option value="瑞穂区" th:selected="${area == '瑞穂区'}">瑞穂区</option>
+											<option value="昭和区" th:selected="${area == '昭和区'}">昭和区</option>
+											<option value="東区" th:selected="${area == '東区'}">東区</option>
+											<option value="西区" th:selected="${area == '西区'}">西区</option>
+											<option value="千種区" th:selected="${area == '千種区'}">千種区</option>
+											<option value="北区" th:selected="${area == '北区'}">北区</option>
+											<option value="守山区" th:selected="${area == '守山区'}">守山区</option>
+											<option value="名東区" th:selected="${area == '名東区'}">名東区</option>
+											<option value="天白区" th:selected="${area == '天白区'}">天白区</option>
+											<option value="緑区" th:selected="${area == '緑区'}">緑区</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn shadow-sm nagoyameshi-btn btn-primary">検索</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+					<div class="card">
+						<div class="card-header mb-3">
+							1人あたりの予算
+						</div>
+						<div class="card-body">
+							<form method="get" th:action="@{/shops}">
+								<div class="form-group mb-3">
+									<select class="form-control form-select w-100" name="budget">
+										<option value="" hidden>選択してください</option>
+										<option value="1000" th:selected="${area == '1000'}">1000円以内</option>
+										<option value="2000" th:selected="${area == '2000'}">2000円以内</option>
+										<option value="3000" th:selected="${area == '3000'}">3000円以内</option>
+										<option value="4000" th:selected="${area == '4000'}">4000円以内</option>
+										<option value="5000" th:selected="${area == '5000'}">5000円以内</option>
+										<option value="6000" th:selected="${area == '6000'}">6000円以内</option>
+										<option value="10000" th:selected="${area == '10000'}">10000円以内</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn shadow-sm nagoyameshi-btn btn-primary">検索</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</main>
 
 		<!-- フッター -->

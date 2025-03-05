@@ -18,15 +18,18 @@ import com.example.nagoyameshi.entity.VerificationToken;
 import com.example.nagoyameshi.event.PasswordResetEventPublisher;
 import com.example.nagoyameshi.form.PasswordResetForm;
 import com.example.nagoyameshi.service.UserService;
+import com.example.nagoyameshi.service.VerificationTokenService;
 
 @Controller
 public class PasswordResetController {
 	private final UserService userService;
 	private final PasswordResetEventPublisher passwordResetEventPublisher;
+	private final VerificationTokenService verificationTokenService;
 
-	public PasswordResetController(UserService userService, PasswordResetEventPublisher passwordResetEventPublisher) {
+	public PasswordResetController(UserService userService, PasswordResetEventPublisher passwordResetEventPublisher, VerificationTokenService verificationTokenService) {
 		this.userService = userService;
 		this.passwordResetEventPublisher = passwordResetEventPublisher;
+		this.verificationTokenService = verificationTokenService;
 	}
 
 	@GetMapping("/passwordReset")
