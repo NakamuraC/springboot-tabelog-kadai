@@ -62,7 +62,7 @@ public class PasswordResetController {
 	        return "redirect:/";
 	    }
 
-	@GetMapping("/signup/verifyPassword")
+	@GetMapping("/passwordReset/verifyPassword")
 	public String verifyPassword(@RequestParam(name = "token") String token, Model model) {
 		VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
 

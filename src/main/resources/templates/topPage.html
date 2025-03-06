@@ -79,7 +79,7 @@
 					</div>
 
 
-					<div class="card">
+					<div class="card mb-3">
 						<div class="card-header mb-3">
 							1人あたりの予算
 						</div>
@@ -95,6 +95,27 @@
 										<option value="5000" th:selected="${area == '5000'}">5000円以内</option>
 										<option value="6000" th:selected="${area == '6000'}">6000円以内</option>
 										<option value="10000" th:selected="${area == '10000'}">10000円以内</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn shadow-sm nagoyameshi-btn btn-primary">検索</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="card mb-6">
+						<div class="card-header mb-3">
+							カテゴリ
+						</div>
+						<div class="card-body">
+							<form method="get" th:action="@{/shops}">
+								<div class="form-group mb-3">
+									<select class="form-control form-select w-100" name="categoryId">
+										<option value="" hidden>選択してください</option>
+										<option th:each="category : ${categories}" th:value="${category.id}"
+											th:text="${category.name}" th:selected="${categoryId == category.id}">
+										</option>
 									</select>
 								</div>
 								<div class="form-group">

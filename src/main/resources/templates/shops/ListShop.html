@@ -15,7 +15,7 @@
 		<div th:replace="~{fragment :: header}"></div>
 
 		<main>
-			<div class="container nagoyameshi-container pb-5">
+			<div class="container nagoyameshi-container pb-6">
 				<div class="row justify-content-center">
 					<nav aria-label="breadcrumb" class="my-3">
 						<ol class="breadcrumb mb-0">
@@ -105,11 +105,11 @@
 							<div class="card-body">
 								<form method="get" th:action="@{/shops}">
 									<div class="form-group mb-3">
-										<select class="form-control form-select w-100" name="category">
+										<select class="form-control form-select w-100" name="categoryId">
 											<option value="" hidden>選択してください</option>
 											<option th:each="category : ${categories}" th:value="${category.id}"
 												th:text="${category.name}"
-												th:selected="${selectedCategory == category.id}">
+												th:selected="${categoryId == category.id}">
 											</option>
 										</select>
 									</div>

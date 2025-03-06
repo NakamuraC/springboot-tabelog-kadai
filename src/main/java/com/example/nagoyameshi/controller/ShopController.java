@@ -1,5 +1,7 @@
 package com.example.nagoyameshi.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -27,10 +29,10 @@ public class ShopController {
     }
 
 	@GetMapping
-    public String index(@RequestParam(name = "keyword", required = false)String keyword,
+    public String index(@RequestParam(name = "keyword", required = false) String keyword,
     		@RequestParam(name = "area", required = false)String area,
     		@RequestParam(name = "budget", required = false)Integer budget,
-    		@RequestParam(name = "category", required = false)Category category,
+    		@RequestParam(name = "categoryId", required = false)Integer categoryId,
     		@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC)
     Pageable pageable, Model model) {
     
@@ -42,17 +44,20 @@ public class ShopController {
 			shopPage = shopRepository.findByAddressLike("%" +  area + "%", pageable);
 		}else if(budget != null) {
 			shopPage = shopRepository.findByBudgetLessThanEqual(budget, pageable);
-		}else if(category != null) {
-			shopPage = shopRepository.findByCategoryNameLike("%" +  category + "%", pageable);
+		}else if(categoryId != null) {
+			shopPage = shopRepository.findByCategoryId(categoryId, pageable);
 		}else {
 			shopPage = shopRepository.findAll(pageable);
 		}
+		
+		List<Category> categories = categoryRepository.findAll();
 		
 		model.addAttribute("shopPage", shopPage);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("area", area);
 		model.addAttribute("budget", budget);
-		model.addAttribute("category", category);
+		model.addAttribute("categories", categories);
+		model.addAttribute("categoryId", categoryId);
 		
 		return "shops/ListShop";
 		
