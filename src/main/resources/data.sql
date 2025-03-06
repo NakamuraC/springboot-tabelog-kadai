@@ -81,3 +81,6 @@ INSERT IGNORE INTO users (id, name, furigana, address, phone_number, email, pass
 INSERT IGNORE INTO users (id, name, furigana, address, phone_number, email, password, role_id, enabled) VALUES (2, '侍 花子', 'サムライ ハナコ',  '東京都千代田区神田練塀町300番地', '090-1234-5678', 'hanako.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true);
 INSERT IGNORE INTO users (id, name, furigana, address, phone_number, email, password, role_id, enabled) VALUES (3, '侍 義勝', 'サムライ ヨシカツ', '奈良県五條市西吉野町湯川X-XX-XX', '090-1234-5678', 'yoshikatsu.samurai@example.com', 'password', 1, false);
 
+INSERT IGNORE INTO reviews (id, user_id, shop_id, thought)
+VALUES (1, 3, 1, '美味しかったと思います。手ごろな価格でした。'),
+       (2, 3, 2, '美味しかったと思います。自分にとっては手ごろな価格でした。');

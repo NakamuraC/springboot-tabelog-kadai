@@ -27,10 +27,79 @@
 					<span th:text="${successMessage}"></span>
 				</div>
 
+				<h1 class="text-center mb-3">名古屋めしと言ったらこれ！！</h1>
+				<div class="row row-cols-lg-3 row-cols-2 g-3 mb-5">
+					<div class="col">
+						<div class="card h-70">
+							<form method="get" th:action="@{/shops}">
+								<input type="hidden" name="keyword" value="ひつまぶし" />
+								<button type="submit" class="border-0 p-0 bg-transparent">
+									<img th:src="@{/images/ひつまぶし.png}" alt="ひつまぶし" class="img-fluid" />
+								</button>
+							</form>
+						</div>
+					</div>
 
+					<div class="col">
+						<div class="card h-70">
+							<form method="get" th:action="@{/shops}">
+								<input type="hidden" name="keyword" value="手羽先" />
+								<button type="submit" class="border-0 p-0 bg-transparent">
+									<img th:src="@{/images/手羽先.png}" alt="手羽先" class="img-fluid" />
+								</button>
+							</form>
+						</div>
+					</div>
 
+					<div class="col">
+						<div class="card h-70">
+							<form method="get" th:action="@{/shops}">
+								<input type="hidden" name="keyword" value="エビフライ" />
+								<button type="submit" class="border-0 p-0 bg-transparent">
+									<img th:src="@{/images/エビフライ.png}" alt="エビフライ" class="img-fluid" />
+								</button>
+							</form>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card h-70">
+							<form method="get" th:action="@{/shops}">
+								<input type="hidden" name="keyword" value="小倉トースト" />
+								<button type="submit" class="border-0 p-0 bg-transparent">
+									<img th:src="@{/images/小倉トースト.png}" alt="小倉トースト" class="img-fluid" />
+								</button>
+							</form>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card h-70">
+							<form method="get" th:action="@{/shops}">
+								<input type="hidden" name="keyword" value="味噌カツ" />
+								<button type="submit" class="border-0 p-0 bg-transparent">
+									<img th:src="@{/images/味噌カツ.png}" alt="味噌カツ" class="img-fluid" />
+								</button>
+							</form>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card h-70">
+							<form method="get" th:action="@{/shops}">
+								<input type="hidden" name="keyword" value="味噌煮込み" />
+								<button type="submit" class="border-0 p-0 bg-transparent">
+									<img th:src="@{/images/味噌煮込み.png}" alt="味噌煮込み" class="img-fluid" />
+								</button>
+							</form>
+						</div>
+					</div>
+
+				</div>
 			</div>
 
+
+			<h3 class="text-center mb-3">こだわって検索したい人はここから！</h3>
 			<div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
 				<div class="col-xl-3 col-lg-4 col-md-12">
 					<form method="get" class="w-100 mb-3" th:action="@{/shops}">
@@ -126,7 +195,6 @@
 					</div>
 				</div>
 			</div>
-
 		</main>
 
 		<!-- フッター -->
