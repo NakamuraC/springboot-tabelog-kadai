@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<div th:replace="~{fragment :: meta}"></div>
+
+	<div th:replace="~{fragment :: styles}"></div>
+	<title>店舗詳細表示画面</title>
+
+</head>
+
+<body>
+	<div class="nagoyameshi-wrapper">
+
+		<div th:replace="~{fragment :: header}"></div>
+
+		<main>
+			<div class="container nagoyameshi-container">
+				<div class="row justify-content-center">
+					<div class="col-xl-5 col-lg-6 col-md-8">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a th:href="@{/shops}">ホーム</a></li>
+								<li class="breadcrumb-item"><a th:href="@{/shops}">店舗一覧</a></li>
+								<li class="breadcrumb-item active" aria-current="page">店舗詳細</li>
+							</ol>
+						</nav>
+
+						<h1 class="text-center" th:text="${shop.getName()}"></h1>
+
+						<div th:if="${errorMessage}" class="alert alert-danger">
+							<span th:text="${errorMessage}"></span>
+						</div>
+
+						<div class="mb-3">
+							<img th:if="${shop.getImageName()}" th:src="@{/storage/__${shop.getImageName()}__}"
+								class="card-img-top nagoyameshi-horizontal-card-image" alt="店舗画像">
+						</div>
+
+						<div class="container mb-4">
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">ID</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getId()}"></span>
+								</div>
+							</div>
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">店舗名</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getName()}"></span>
+								</div>
+							</div>
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">カテゴリID</span>
+								</div>
+
+								<div>
+									<span
+										th:text="${shop.getCategory() != null ? shop.getCategory().getId() : '未分類'}"></span>
+								</div>
+							</div>
+
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">予算</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getBudget()}"></span>
+								</div>
+							</div>
+
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">説明</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getDescription()}"></span>
+								</div>
+							</div>
+
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">住所</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getAddress()}"></span>
+								</div>
+							</div>
+
+							<div class="row pb-2 mb-2 border-bottom">
+								<div>
+									<span class="fw-bold">電話番号</span>
+								</div>
+
+								<div>
+									<span th:text="${shop.getPhoneNumber()}"></span>
+								</div>
+							</div>
+						</div>
+
+						<div sec:authorize="isAnonymous()">
+							<div class="card">
+								<div class="card-body">
+									<p class="card-text">予約するには<a th:href="@{/signup}">会員登録<a>が必要です。</p>
+									<button type="submit" class="btn btn-primary nagoyameshi-btn">予約する</button>
+								</div>
+							</div>
+						</div>
+
+<!--						<h2 class="text-center mb-3">レビュー</h2>-->
+<!--						<div class="row row-cols-lg-3 row-cols-2 g-3 mb-5">-->
+<!--							<div class="col" th:each="reviews : ${reviews}">-->
+<!--								<a th:href="@{/reviews/__${review.getId()}__}"-->
+<!--									class="link-dark samuraitravel-card-link">-->
+<!--									<div class="card h-100">-->
+<!--										<div class="card-body">-->
+<!--											<h3 class="card-title" th:text="${review.getUserId()}"></h3>-->
+											
+<!--											<p class="card-text">-->
+<!--												<span-->
+<!--													th:text="$${review.getThought()}"></span>-->
+<!--											</p>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</a>-->
+<!--							</div>-->
+<!--						</div>-->
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<div th:replace="~{fragment :: footer}"></div>
+	</div>
+
+	<div th:replace="~{fragment :: scripts}"></div>
+
+</body>
+
+</html>
