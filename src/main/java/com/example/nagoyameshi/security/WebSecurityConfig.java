@@ -19,7 +19,7 @@ public class WebSecurityConfig {
 		http
 		.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**","/passwordReset/**", "/shops", "/shops/{id}").permitAll()
-                .requestMatchers("/reservation/**", "/review/**").hasRole("PREMIUM")
+                .requestMatchers("/reservation/**", "/shops/{shopId}/reviews").hasRole("PREMIUM")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 )
