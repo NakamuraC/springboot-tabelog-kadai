@@ -5,6 +5,11 @@
 	<div th:replace="~{fragment :: meta}"></div>
 
 	<div th:replace="~{fragment :: styles}"></div>
+	
+	<!-- Flatpickr -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	  
+	
 	<title>店舗詳細表示画面</title>
 
 </head>
@@ -122,24 +127,72 @@
 							</div>
 						</div>
 
-<!--						<h2 class="text-center mb-3">レビュー</h2>-->
-<!--						<div class="row row-cols-lg-3 row-cols-2 g-3 mb-5">-->
-<!--							<div class="col" th:each="reviews : ${reviews}">-->
-<!--								<a th:href="@{/reviews/__${review.getId()}__}"-->
-<!--									class="link-dark samuraitravel-card-link">-->
-<!--									<div class="card h-100">-->
-<!--										<div class="card-body">-->
-<!--											<h3 class="card-title" th:text="${review.getUserId()}"></h3>-->
-											
-<!--											<p class="card-text">-->
-<!--												<span-->
-<!--													th:text="$${review.getThought()}"></span>-->
-<!--											</p>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</a>-->
-<!--							</div>-->
-<!--						</div>-->
+						<div sec:authorize="hasRole('ROLE_GENERAL')">
+							<div class="card">
+								<div class="card-body">
+									<p class="card-text">予約するには<a href="#">有料会員登録<a>が必要です。</p>
+									<button type="submit" class="btn btn-primary nagoyameshi-btn">登録する</button>
+								</div>
+							</div>
+						</div>
+
+						<div sec:authorize="hasRole('ROLE_PREMIUM')">
+							<div class="card">
+								<div class="card-body">
+									<form method="get" th:action="@{/shops/__${shop.getId()}__/reservations/input}"
+										th:object="${reservationInputForm}">
+										<div class="form-group mb-2">
+											<label for="fromReservationDate"
+												class="col-form-label text-md-left fw-bold">予約日</label>
+											<div th:if="${#fields.hasErrors('fromReservationDate')}"
+												class="text-danger small mb-2" th:errors="*{fromReservationDate}"></div>
+											<input type="text" class="form-control" th:field="*{fromReservationDate}">
+										</div>
+
+										<div class="form-group mb-2">
+											<label for="fromReservationTime"
+												class="col-form-label text-md-left fw-bold">予約時間</label>
+											<div th:if="${#fields.hasErrors('fromReservationTime')}"
+												class="text-danger small mb-2" th:errors="*{fromReservationTime}"></div>
+											<input type="text" class="form-control" th:field="*{fromReservationTime}">
+										</div>
+
+										<div class="form-group mb-4">
+											<label for="numberOfPeople"
+												class="col-form-label text-md-left fw-bold">予約人数</label>
+											<div th:if="${#fields.hasErrors('numberOfPeople')}"
+												class="text-danger small mb-2" th:errors="*{numberOfPeople}"></div>
+											<input type="number" class="form-control" th:field="*{numberOfPeople}"
+												min="1">
+										</div>
+
+										<div class="form-group">
+											<button type="submit"
+												class="btn text-white shadow-sm w-100 nagoyameshi-btn">予約する</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<!--						<h2 class="text-center mb-3">レビュー</h2>-->
+						<!--						<div class="row row-cols-lg-3 row-cols-2 g-3 mb-5">-->
+						<!--							<div class="col" th:each="reviews : ${reviews}">-->
+						<!--								<a th:href="@{/reviews/__${review.getId()}__}"-->
+						<!--									class="link-dark samuraitravel-card-link">-->
+						<!--									<div class="card h-100">-->
+						<!--										<div class="card-body">-->
+						<!--											<h3 class="card-title" th:text="${review.getUserId()}"></h3>-->
+
+						<!--											<p class="card-text">-->
+						<!--												<span-->
+						<!--													th:text="$${review.getThought()}"></span>-->
+						<!--											</p>-->
+						<!--										</div>-->
+						<!--									</div>-->
+						<!--								</a>-->
+						<!--							</div>-->
+						<!--						</div>-->
 					</div>
 				</div>
 			</div>
@@ -149,6 +202,11 @@
 	</div>
 
 	<div th:replace="~{fragment :: scripts}"></div>
+	
+	<!-- Flatpickr -->
+	        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+	        <script th:src="@{/js/flatpickr.js}"></script> 
 
 </body>
 

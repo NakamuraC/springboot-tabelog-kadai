@@ -42,10 +42,10 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="review : ${reviews}">
+								<tr th:each="review : ${reviewPage}">
 									<td th:text="${review.getId()}"></td>
-									<td th:text="${review.userId.Id()}"></td>
-									<td th:text="${review.shopId.Id()}"></td>
+									<td th:text="${review.user.Id()}"></td>
+									<td th:text="${review.shop.Id()}"></td>
 									<td th:text="${review.getThought()}"></td>
 								</tr>
 							</tbody>
