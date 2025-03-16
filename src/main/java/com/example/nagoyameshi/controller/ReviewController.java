@@ -1,6 +1,6 @@
 package com.example.nagoyameshi.controller;
 
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -19,7 +19,8 @@ import com.example.nagoyameshi.service.ReviewService;
 
 @Controller		
 @RequestMapping("/shops/{shopId}/reviews")		
-public class ReviewController {		
+public class ReviewController {	
+	
     private final ReviewRepository reviewRepository;		
     private final ShopRepository shopRepository; 		
     private final ReviewService reviewService; 		

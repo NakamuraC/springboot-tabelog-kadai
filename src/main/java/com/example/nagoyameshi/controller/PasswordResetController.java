@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.nagoyameshi.entity.PasswordResetToken;
 import com.example.nagoyameshi.entity.User;
-import com.example.nagoyameshi.entity.VerificationToken;
 import com.example.nagoyameshi.event.PasswordResetEventPublisher;
 import com.example.nagoyameshi.form.PasswordResetForm;
+import com.example.nagoyameshi.service.PasswordResetTokenService;
 import com.example.nagoyameshi.service.UserService;
-import com.example.nagoyameshi.service.VerificationTokenService;
 
 @Controller
 public class PasswordResetController {
 	private final UserService userService;
 	private final PasswordResetEventPublisher passwordResetEventPublisher;
-	private final VerificationTokenService verificationTokenService;
+	private final PasswordResetTokenService passwordResetTokenService;
 
-	public PasswordResetController(UserService userService, PasswordResetEventPublisher passwordResetEventPublisher, VerificationTokenService verificationTokenService) {
+	public PasswordResetController(UserService userService, PasswordResetEventPublisher passwordResetEventPublisher, PasswordResetTokenService passwordResetTokenService) {
 		this.userService = userService;
 		this.passwordResetEventPublisher = passwordResetEventPublisher;
-		this.verificationTokenService = verificationTokenService;
+		this.passwordResetTokenService = passwordResetTokenService;
 	}
 
 	@GetMapping("/passwordReset")
@@ -64,10 +64,10 @@ public class PasswordResetController {
 
 	@GetMapping("/passwordReset/verify")
 	public String verifyPassword(@RequestParam(name = "token") String token, Model model) {
-		VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+		PasswordResetToken passwordResetToken = passwordResetTokenService.getPasswordResetToken(token);
 
-		if (verificationToken != null) {
-			User user = verificationToken.getUser();
+		if (passwordResetToken != null) {
+			User user = passwordResetToken.getUser();
 			userService.enableUser(user);
 			String successMessage = "パスワードリセットが完了しました。";
 			model.addAttribute("successMessage", successMessage);
