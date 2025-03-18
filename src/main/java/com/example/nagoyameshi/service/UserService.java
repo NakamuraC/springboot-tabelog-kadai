@@ -1,5 +1,13 @@
 package com.example.nagoyameshi.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,4 +93,33 @@ public class UserService {
         User currentUser = userRepository.getReferenceById(userEditForm.getId());
         return !userEditForm.getEmail().equals(currentUser.getEmail());      
     }  
+	
+	@Transactional
+	 public void updateRole(Map<String, String> paymentIntentObject) {
+	     String userId = paymentIntentObject.get("userId");
+
+	     User user = userRepository.findById(Long.parseLong(userId))
+	             .orElseThrow(() -> new RuntimeException("指定されたユーザーが見つかりません。"));
+
+	     String roleName = paymentIntentObject.get("roleName");
+
+	     Role role = roleRepository.findByName(roleName);
+	     user.setRole(role);
+
+	     // ユーザーを保存
+	     userRepository.save(user);
+
+	     // ロールが変更されたので、セッションを無効化して再ログインさせる
+	     refreshAuthenticationByRole(roleName);
+	 }
+	
+	public void refreshAuthenticationByRole(String newRole) {
+	     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+	     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+	     authorities.add(new SimpleGrantedAuthority(newRole));
+	     Authentication newAuth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
+
+	     SecurityContextHolder.getContext().setAuthentication(newAuth);
+	 }
 }

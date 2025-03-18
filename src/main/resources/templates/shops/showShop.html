@@ -5,11 +5,11 @@
 	<div th:replace="~{fragment :: meta}"></div>
 
 	<div th:replace="~{fragment :: styles}"></div>
-	
+
 	<!-- Flatpickr -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-	  
-	
+
+
 	<title>店舗詳細表示画面</title>
 
 </head>
@@ -30,6 +30,45 @@
 								<li class="breadcrumb-item active" aria-current="page">店舗詳細</li>
 							</ol>
 						</nav>
+
+						<!-- お気に入り追加　-->
+						<div class="text-end">
+							<div sec:authorize="isAnonymous()">
+
+								<div>
+									<a href="#">&#9825;
+										お気に入り追加</a>
+									<p>は有料会員が使用できます</a>
+								</div>
+							</div>
+
+							<div sec:authorize="hasRole('ROLE_GENERAL')">
+
+								<div>
+									<a href="#">&#9825;
+										お気に入り追加</a>
+									<p>は有料会員が使用できます</a>
+								</div>
+							</div>
+
+							<div sec:authorize="hasRole('ROLE_PREMIUM')">
+								<div th:if="${isFavorite}">
+									<a href="#"
+										onclick="event.preventDefault(); document.getElementById('favorite-form').submit();">&#9829;
+										お気に入り解除</a>
+									<form method="post"
+										th:action="@{/shops/__${shop.getId()}__/favorite/__${favorite.getId()}__/delete}"
+										id="favorite-form" class="d-none"></form>
+								</div>
+								<div th:unless="${isFavorite}">
+									<a href="#"
+										onclick="event.preventDefault(); document.getElementById('favorite-form').submit();">&#9825;
+										お気に入り追加</a>
+									<form method="post" th:action="@{/shops/__${shop.getId()}__/favorite/create}"
+										id="favorite-form" class="d-none"></form>
+								</div>
+							</div>
+						</div>
 
 						<h1 class="text-center" th:text="${shop.getName()}"></h1>
 
@@ -193,6 +232,11 @@
 						<!--								</a>-->
 						<!--							</div>-->
 						<!--						</div>-->
+						
+						<div>
+							<a  th:href="@{'/shops/' + ${shop.id} + '/reviews'}">レビュー一覧</a> 
+						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -202,11 +246,11 @@
 	</div>
 
 	<div th:replace="~{fragment :: scripts}"></div>
-	
+
 	<!-- Flatpickr -->
-	        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
-	        <script th:src="@{/js/flatpickr.js}"></script> 
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+	<script th:src="@{/js/flatpickr.js}"></script>
 
 </body>
 

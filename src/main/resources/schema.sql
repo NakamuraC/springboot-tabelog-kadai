@@ -78,3 +78,12 @@ CREATE TABLE IF NOT EXISTS reservations (
     FOREIGN KEY (shop_id) REFERENCES shops (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE IF NOT EXISTS favorites (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  shop_id INT NOT NULL,
+  user_id INT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (shop_id) REFERENCES shops (id),
+  FOREIGN KEY (user_id) REFERENCES users (id)
+  );
