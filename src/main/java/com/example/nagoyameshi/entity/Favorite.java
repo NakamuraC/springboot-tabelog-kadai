@@ -23,7 +23,7 @@ public class Favorite {
     private Integer id;
 	
 	@ManyToOne
-    @JoinColumn(name = "house_id")
+    @JoinColumn(name = "shop_id")
     private Shop shop; 
     
     @ManyToOne

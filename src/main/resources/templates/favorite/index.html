@@ -36,9 +36,6 @@
 											<img th:if="${favorite.getShop().getImageName()}"
 												th:src="@{/storage/__${favorite.getShop().getImageName()}__}"
 												class="card-img-top nagoyameshi-horizontal-card-image" alt="店舗画像">
-											<img th:unless="${favorite.getShop().getImageName()}"
-												th:src="@{/images/noImage.png}"
-												class="card-img-top nagoyameshi-horizontal-card-image" alt="NO IMAGE">
 										</div>
 										<div class="col-md-8">
 											<div class="card-body">
@@ -53,14 +50,12 @@
 
 												<p class="card-text mb-2">
 													<small class="text-muted"
-														th:text="${'〒' + favorite.getShop().getPostalCode()}"></small>
-													<small class="text-muted"
 														th:text="${favorite.getShop().getAddress()}"></small>
 												</p>
 
 												<p class="card-text">
 													<span
-														th:text="${#numbers.formatInteger(favorite.getShop().getPrice(), 1, 'COMMA') + '円 / 泊'}"></span>
+														th:text="${#numbers.formatInteger(favorite.getShop().getBudget(), 1, 'COMMA') + '円'}"></span>
 												</p>
 											</div>
 										</div>

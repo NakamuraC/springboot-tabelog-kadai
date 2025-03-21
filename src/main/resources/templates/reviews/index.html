@@ -29,24 +29,28 @@
 						<h1 class="mb-4 text-center">レビュー一覧</h1>
 
 						<div class="d-flex justify-content-end">
-							<a href="#" class="btn text-white shadow-sm mb-3 nagoyameshi-btn">登録</a>
+							<a sec:authorize="hasRole('ROLE_PREMIUM')"
+							th:href="@{/shops/{shopId}/reviews/register(shopId=${shop.getId()})}"
+								class="btn text-white shadow-sm mb-3 nagoyameshi-btn">登録</a>
+						</div>
+
+						<div th:if="${successMessage}" class="alert alert-info">
+							<span th:text="${successMessage}"></span>
 						</div>
 
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">ID</th>
 									<th scope="col">ユーザー名</th>
-									<th scope="col">店舗ID</th>
 									<th scope="col">レビュー</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="review : ${reviewPage}">
-									<td th:text="${review.getId()}"></td>
 									<td th:text="${review.user.Id}"></td>
-									<td th:text="${review.shop.Id}"></td>
 									<td th:text="${review.getThought()}"></td>
+									<td><a th:href="@{|/shops/${shop.getId()}/reviews/${review.getId()}/edit|}">編集</a></td>
 								</tr>
 							</tbody>
 						</table>
