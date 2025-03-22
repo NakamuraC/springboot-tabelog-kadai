@@ -1,5 +1,9 @@
 package com.example.nagoyameshi.service;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +21,13 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final UserDetailsService userDetailsService;
 
-	public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.userDetailsService = userDetailsService;
 	}
 
 	@Transactional
@@ -86,66 +92,44 @@ public class UserService {
         return !userEditForm.getEmail().equals(currentUser.getEmail());      
     }  
 	
-//	@Transactional
-//	 public void updateRole(Map<String, String> paymentIntentObject) {
-//	     String userId = paymentIntentObject.get("userId");
-//
-//	     User user = userRepository.findById(Long.parseLong(userId))
-//	             .orElseThrow(() -> new RuntimeException("指定されたユーザーが見つかりません。"));
-//
-//	     String roleName = paymentIntentObject.get("roleName");
-//
-//	     Role role = roleRepository.findByName(roleName);
-//	     user.setRole(role);
-//
-//	     // ユーザーを保存
-//	     userRepository.save(user);
-//
-//	     // ロールが変更されたので、セッションを無効化して再ログインさせる
-//	     refreshAuthenticationByRole(roleName);
-//	 }
-//	
-//	public void refreshAuthenticationByRole(String newRole) {
-//	     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//	     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//	     authorities.add(new SimpleGrantedAuthority(newRole));
-//	     Authentication newAuth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
-//
-//	     SecurityContextHolder.getContext().setAuthentication(newAuth);
-//	 }
 	
+	@Transactional
+	public void upgradeRole(Integer userId) {
+		User user = userRepository.getReferenceById(userId);
+		Role role = roleRepository.findByName("ROLE_PREMIUM");
+
+		user.setRole(role);
+		user.setEnabled(true);
+
+		userRepository.save(user);
+		
+		 reauthenticateUser(user.getEmail());
+		
+
+	}
+
+	@Transactional
+	public void downgradeRole(Integer userId) {
+
+		User user = userRepository.getReferenceById(userId);
+		Role role = roleRepository.findByName("ROLE_GENERAL");
+
+		user.setRole(role);
+		user.setEnabled(true);
+
+		userRepository.save(user);
+		
+		// ユーザーを再認証する
+        reauthenticateUser(user.getEmail());
+
+	}
 	
-//	@Transactional
-//	public void upgradeRole(Integer userId) {
-//		User user = userRepository.getReferenceById(userId);
-//		Role role = roleRepository.findByName("ROLE_PREMIUM");
-//
-//		user.setRoleId(role);
-//		user.setEnabled(true);
-//
-//		userRepository.save(user);
-//		
-//		 reauthenticateUser(user.getEmail());
-//		
-//
-//	}
-//
-//	@Transactional
-//	public void downgradeRole(Integer userId) {
-//
-//		User user = userRepository.getReferenceById(userId);
-//		Role role = roleRepository.findByName("ROLE_GENERAL");
-//
-//		user.setRoleId(role);
-//		user.setEnabled(true);
-//
-//		userRepository.save(user);
-//		
-//		// ユーザーを再認証する
-//        reauthenticateUser(user.getEmail());
-//
-//	}
+	private void reauthenticateUser(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UsernamePasswordAuthenticationToken authentication = 
+                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
 	
 	
 	

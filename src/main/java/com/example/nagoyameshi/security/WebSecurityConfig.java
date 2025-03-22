@@ -15,31 +15,35 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-		.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**","/passwordReset/**", "/shops", "/shops/{id}").permitAll()
-                .requestMatchers("/reservation/**", "/shops/{shopId}/reviews").hasRole("PREMIUM")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                )
-		.formLogin((form) -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/?loggedIn")
-                        .failureUrl("/login?error")
-                        .permitAll()
-                )
-		.logout((logout) -> logout
-                        .logoutSuccessUrl("/?loggedOut")
-                        .permitAll()
-                		);
-        return http.build();
-                
+				.authorizeHttpRequests((requests) -> requests
+						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**",
+								"/passwordReset/**", "/shops", "/shops/{id}",
+								"/shops/{shopId}/reviews", "/stripe/webhook")
+						.permitAll()
+						.requestMatchers("/reservation/**", "/shops/{shopId}/reviews/**").hasRole("PREMIUM")
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+						.anyRequest().authenticated())
+				.formLogin((form) -> form
+						.loginPage("/login")
+						.loginProcessingUrl("/login")
+						.defaultSuccessUrl("/?loggedIn")
+						.failureUrl("/login?error")
+						.permitAll())
+				.logout((logout) -> logout
+						.logoutSuccessUrl("/?loggedOut")
+						.permitAll()
+
+				)
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/stripe/webhook"));
+
+		return http.build();
+
 	}
-	
+
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }
