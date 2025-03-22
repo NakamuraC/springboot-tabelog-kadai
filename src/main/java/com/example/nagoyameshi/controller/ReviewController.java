@@ -85,19 +85,39 @@ public class ReviewController {
 		return "redirect:/shops/" + shopId + "/reviews";
 	}
 	
-	@GetMapping("/{reviewid}/edit")
+	@GetMapping("/{reviewId}/edit")
     public String edit(@PathVariable(name = "shopId") Integer shopId,
     		@PathVariable(name = "reviewId") Integer reviewId, Model model) {
         Shop shop = shopRepository.getReferenceById(shopId);
         Review review = reviewRepository.getReferenceById(reviewId);	
         
-        ReviewEditForm reviewEditForm = new ReviewEditForm(review.getThought());
+        ReviewEditForm reviewEditForm = new ReviewEditForm(review.getId(), review.getThought());
         
         model.addAttribute("shop", shop);
         model.addAttribute("review", review);
         model.addAttribute("reviewEditForm", reviewEditForm);
         
         return "reviews/edit";
-    }    
+    }  
+	
+	@PostMapping("/{reviewId}/update")
+	public String update(@PathVariable(name = "shopId") Integer shopId,
+	                     @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	                     @ModelAttribute @Validated ReviewEditForm reviewEditForm,
+	                     BindingResult bindingResult,
+	                     RedirectAttributes redirectAttributes) {
+	    if (bindingResult.hasErrors()) {
+	        return "reviews/edit";
+	    }
+
+	    Shop shop = shopRepository.getReferenceById(shopId);
+	    User user = userDetailsImpl.getUser(); // ログイン中のユーザーを取得
+
+	    reviewService.update(shop, user, reviewEditForm);
+	    redirectAttributes.addFlashAttribute("successMessage", "レビューを編集しました。");
+
+	    return "redirect:/shops/" + shopId + "/reviews";
+	}
+
 
 }

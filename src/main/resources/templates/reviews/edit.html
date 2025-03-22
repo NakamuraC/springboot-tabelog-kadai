@@ -28,7 +28,7 @@
 
 						<h1 class="text-center mb-4">レビュー編集</h1>
 
-						<form method="post" th:action="@{/shops/{shopId}/reviews/__${reviewEditForm.getId()}__/update}" th:object="${reviewEditForm}">
+						<form method="post" th:action="@{/shops/__${shop.getId()}__/reviews/__${review.getId()}__/update}" th:object="${reviewEditForm}">
 							<div class="form-group mb-3 row">
 								<div class="col-md-4">
 									<label for="thought" class="col-form-label text-md-left fw-bold">レビュー内容</label>

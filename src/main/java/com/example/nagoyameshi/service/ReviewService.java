@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.nagoyameshi.entity.Review;
 import com.example.nagoyameshi.entity.Shop;
 import com.example.nagoyameshi.entity.User;
+import com.example.nagoyameshi.form.ReviewEditForm;
 import com.example.nagoyameshi.form.ReviewRegisterForm;
 import com.example.nagoyameshi.repository.ReviewRepository;
 import com.example.nagoyameshi.repository.ShopRepository;
@@ -31,6 +32,17 @@ public class ReviewService {
 		review.setShop(shop);
 		review.setUser(user);
 		review.setThought(reviewRegisterForm.getThought());
+
+		reviewRepository.save(review);
+	}
+	
+	@Transactional
+	public void update(Shop shop, User user,  ReviewEditForm reviewEditForm) {
+		Review review = reviewRepository.getReferenceById(reviewEditForm.getId());
+		
+		review.setShop(shop);
+		review.setUser(user);
+		review.setThought(reviewEditForm.getThought());
 
 		reviewRepository.save(review);
 	}
