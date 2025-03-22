@@ -118,6 +118,16 @@ public class ReviewController {
 
 	    return "redirect:/shops/" + shopId + "/reviews";
 	}
-
+	
+	@PostMapping("/{reviewId}/delete")
+	 public String delete(@PathVariable(name = "shopId") Integer shopId,
+			 @PathVariable(name = "reviewId") Integer reviewId,
+			 RedirectAttributes redirectAttributes) {        
+        reviewRepository.deleteById(reviewId);
+                
+        redirectAttributes.addFlashAttribute("successMessage", "レビューを削除しました。");
+        
+        return "redirect:/shops/" + shopId + "/reviews";
+    }    
 
 }

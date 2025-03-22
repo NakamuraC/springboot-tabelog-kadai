@@ -30,7 +30,7 @@
 
 						<div class="d-flex justify-content-end">
 							<a sec:authorize="hasRole('ROLE_PREMIUM')"
-							th:href="@{/shops/{shopId}/reviews/register(shopId=${shop.getId()})}"
+								th:href="@{/shops/{shopId}/reviews/register(shopId=${shop.getId()})}"
 								class="btn text-white shadow-sm mb-3 nagoyameshi-btn">登録</a>
 						</div>
 
@@ -44,13 +44,50 @@
 									<th scope="col">ユーザー名</th>
 									<th scope="col">レビュー</th>
 									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="review : ${reviewPage}">
-									<td th:text="${review.user.Id}"></td>
+									<td th:text="${review.getUser().getName()}"></td>
 									<td th:text="${review.getThought()}"></td>
-									<td><a th:href="@{|/shops/${shop.getId()}/reviews/${review.getId()}/edit|}">編集</a></td>
+									<td>
+										<span sec:authorize="isAuthenticated()"
+											th:if="${#authentication.principal.user.id == review.getUser().getId()}">
+											<a
+												th:href="@{|/shops/${shop.getId()}/reviews/${review.getId()}/edit|}">編集</a>
+										</span>
+									</td>
+									<td>
+										<span sec:authorize="isAuthenticated()"
+											th:if="${#authentication.principal.user.id == review.getUser().getId()}">
+											<a href="#" class="nagoyameshi-link-danger" data-bs-toggle="modal"
+												th:data-bs-target="${'#deleteReviewModal' + review.getId()}">削除</a>
+										</span>
+									</td>
+
+									<!-- 削除用モーダル -->
+									<div class="modal fade" th:id="${'deleteReviewModal' + review.getId()}" tabindex="-1"
+										th:aria-labelledby="${'deleteReviewModalLabel' + review.getId()}">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title"
+														th:id="${'deleteReviewModalLabel' + review.getId()}"
+														th:text="${review.getName() + 'を削除してもよろしいですか？'}"></h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal"
+														aria-label="閉じる"></button>
+												</div>
+												<div class="modal-footer">
+													<form method="post"
+														th:action="@{|/shops/${shop.getId()}/reviews/${review.getId()}/delete|}">
+														<button type="submit"
+															class="btn nagoyameshi-btn-danger text-white shadow-sm">削除</button>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
 								</tr>
 							</tbody>
 						</table>
