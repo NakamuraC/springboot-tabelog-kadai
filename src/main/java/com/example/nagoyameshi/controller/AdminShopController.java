@@ -88,6 +88,10 @@ public class AdminShopController {
 	@PostMapping("/create")
 	public String create(@ModelAttribute @Validated ShopRegisterForm shopRegisterForm, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
+		if (shopRegisterForm.getImageFile() == null || shopRegisterForm.getImageFile().isEmpty()) {
+		    bindingResult.rejectValue("imageFile", "NotBlank", "店舗画像を選択してください。");
+		}
+		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("categories", categoryRepository.findAll());
 			return "admin/shops/shopRegister";
