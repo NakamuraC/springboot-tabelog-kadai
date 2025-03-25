@@ -20,9 +20,9 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests((requests) -> requests
 						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**",
 								"/passwordReset/**", "/shops", "/shops/{id}",
-								"/shops/{shopId}/reviews", "/stripe/webhook")
+								"/shops/{shopId}/reviews", "/subscription/register", "/subscription/create")
 						.permitAll()
-						.requestMatchers("/reservation/**", "/shops/{shopId}/reviews/**").hasRole("PREMIUM")
+						.requestMatchers("/reservation/**", "/shops/{shopId}/reviews/**", "/subscription/edit", "/subscription/update", "/subscription/cancel", "/subscription/delete").hasRole("PREMIUM")
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 						.anyRequest().authenticated())
 				.formLogin((form) -> form

@@ -24,19 +24,23 @@ public class AdminUserController {
 	}
 
 	@GetMapping
-	public String index(@RequestParam(name = "keyword", required = false) String keyword,
+	public String index(@RequestParam(name = "nameKeyword", required = false) String nameKeyword,
+			@RequestParam(name = "emailKeyword", required = false) String emailKeyword,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
 			Model model) {
 		Page<User> userPage;
 
-		if (keyword != null && !keyword.isEmpty()) {
-			userPage = userRepository.findByNameLikeOrFuriganaLike("%" + keyword + "%", "%" + keyword + "%", pageable);
+		if (nameKeyword != null && !nameKeyword.isEmpty()) {
+			userPage = userRepository.findByNameLikeOrFuriganaLike("%" + nameKeyword + "%", "%" + nameKeyword + "%", pageable);
+		}else if(emailKeyword != null && !emailKeyword.isEmpty()){
+			userPage = userRepository.findByEmailContaining(emailKeyword, pageable);
 		} else {
 			userPage = userRepository.findAll(pageable);
 		}
 
 		model.addAttribute("userPage", userPage);
-		model.addAttribute("keyword", keyword);
+		model.addAttribute("nameKeyword", nameKeyword);
+	    model.addAttribute("emailKeyword", emailKeyword);
 
 		return "admin/users/index";
 	}

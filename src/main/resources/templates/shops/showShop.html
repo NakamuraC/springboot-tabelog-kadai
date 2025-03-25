@@ -176,7 +176,7 @@
 						</div>
 
 						<div sec:authorize="hasRole('ROLE_PREMIUM')">
-							<div class="card">
+							<div class="card mb-4">
 								<div class="card-body">
 									<form method="get" th:action="@{/shops/__${shop.getId()}__/reservations/input}"
 										th:object="${reservationInputForm}">
@@ -214,27 +214,11 @@
 							</div>
 						</div>
 
-						<!--						<h2 class="text-center mb-3">レビュー</h2>-->
-						<!--						<div class="row row-cols-lg-3 row-cols-2 g-3 mb-5">-->
-						<!--							<div class="col" th:each="reviews : ${reviews}">-->
-						<!--								<a th:href="@{/reviews/__${review.getId()}__}"-->
-						<!--									class="link-dark samuraitravel-card-link">-->
-						<!--									<div class="card h-100">-->
-						<!--										<div class="card-body">-->
-						<!--											<h3 class="card-title" th:text="${review.getUserId()}"></h3>-->
-
-						<!--											<p class="card-text">-->
-						<!--												<span-->
-						<!--													th:text="$${review.getThought()}"></span>-->
-						<!--											</p>-->
-						<!--										</div>-->
-						<!--									</div>-->
-						<!--								</a>-->
-						<!--							</div>-->
-						<!--						</div>-->
-						
-						<div>
-							<a  th:href="@{'/shops/' + ${shop.id} + '/reviews'}">レビュー一覧</a> 
+						<div class="card">
+							<div class="card-body">
+								<p class="card-text pb-3">このお店のレビューは以下をクリック。</p>
+								<a th:href="@{'/shops/' + ${shop.id} + '/reviews'}" class="nagoyameshi-btn">レビュー一覧</a>
+							</div>
 						</div>
 						
 					</div>

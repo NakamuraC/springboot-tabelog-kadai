@@ -100,9 +100,21 @@ private final ReservationService reservationService;
     }  
     
     @PostMapping("/shops/{id}/reservations/create")
-    public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {                
+    public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm, RedirectAttributes redirectAttributes) {                
         reservationService.create(reservationRegisterForm);        
+        
+        redirectAttributes.addFlashAttribute("successMessage", "予約が完了しました。");
         
         return "redirect:/reservations?reserved";
     }
+    
+    @PostMapping("/reservations/{id}/delete")
+	public String delete(@PathVariable(name = "id")Integer id, RedirectAttributes redirectAttributes) {
+		reservationRepository.deleteById(id);
+		
+		redirectAttributes.addFlashAttribute("successMessage", "予約を削除しました。");
+		
+		return "redirect:/reservations?reserved";
+	}
+	
 }
